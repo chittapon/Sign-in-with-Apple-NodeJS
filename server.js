@@ -9,12 +9,6 @@ const fs = require('fs')
 const axios = require('axios')
 const querystring = require('querystring')
 
-//app.get('/', (req, res) => res.sendFile(path.join(__dirname, '.well-known/apple-developer-domain-association.txt')))
-
-// app.get('/index', (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
-
-//app.get('/.well-known/apple-developer-domain-association.txt', (req, res) => res.sendFile(path.join(__dirname, '.well-known/apple-developer-domain-association.txt')))
-
 const getClientSecret = () => {
 	// sign with RSA SHA256
 	const privateKey = fs.readFileSync(process.env.PRIVATE_KEY_FILE_PATH);
@@ -48,9 +42,6 @@ const getUserId = (token) => {
 app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => {
 
 	console.log('response: ', req.body)
-	console.log('url: ', req.url)
-	var state = 'ddeb27fb-d9a0-4624-be4d-4615062daed4'
-	console.log('state: ', state)
 
 	const clientSecret = getClientSecret()
 	const requestBody = {
@@ -88,7 +79,7 @@ process.env['PRIVATE_KEY_FILE_PATH'] = 'AuthKey_58VP6JAB9F.p8';
 process.env['TEAM_ID'] = 'BT896L4Y6Y';
 process.env['KEY_ID'] = '58VP6JAB9F';
 process.env['CLIENT_ID'] = 'com.pap.signinwithapple.service';
-process.env['REDIRECT_URI'] = 'https://d24fbaed.ngrok.io/callback';
+process.env['REDIRECT_URI'] = 'https://pap-sign-in-with-apple.herokuapp.com/callback';
 process.env['SCOPE'] = 'name email';
 
 app.listen(process.env.PORT || 3000, () => console.log(`App listening on port ${process.env.PORT || 3000}!`))
