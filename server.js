@@ -63,16 +63,7 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 	}).then(response => {
 		console.log('response from apple: ', response.data)
 
-		var html = `<html>
-						<body>
-						<script type="text/javascript">
-							function webBody() {
-								WebViewJS.webBody('I got it');
-							}
-						</script>
-						</body>
-					</html>`;
-
+		var html = "<html><body><script type=\"text/javascript\">function webBody() {WebViewJS.webBody('I got it');}</script></body></html>";
 		res.type('html')
 		return res.send(html);
 
