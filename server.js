@@ -61,13 +61,9 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 		data: querystring.stringify(requestBody),
 		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(response => {
+		
 		console.log('response from apple: ', response.data)
 
-		var html = "<html><body><script>function webBody() {WebViewJS.webBody('I got it'); webBody();}</script></body></html>";
-		res.type('html')
-		return res.send(html);
-
-		
 		return res.sendFile(path.join(__dirname, 'jsinterface.html'))
 		return res.json({
 			success: true,
