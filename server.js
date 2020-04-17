@@ -51,7 +51,8 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 		client_id: process.env.CLIENT_ID,
 		client_secret: clientSecret,
 		scope: process.env.SCOPE,
-		state: state
+		code: req.body.code,
+		state: req.body.state
 	}
 
 	axios.request({
