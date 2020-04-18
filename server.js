@@ -41,8 +41,6 @@ const getUserId = (token) => {
 
 app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => {
 
-	console.log('response: ', req.body)
-
 	const clientSecret = getClientSecret()
 	const requestBody = {
 		grant_type: 'authorization_code',
@@ -62,22 +60,29 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(response => {
 
-		console.log('response from apple: ', response.data)
-
-		var html = "<html><body><script>WebViewJS.webBody('Test test');</script></body></html>"
-		res.type('html');
-		return res.send(html);
-		return res.sendFile(path.join(__dirname, 'jsinterface.html'))
-		return res.json({
+		var data = {
 			success: true,
-			data: response.data,
-			user: getUserId(response.data.id_token)
-		})
+			data: req.body,
+			user: getUserId(response.data.id_token),
+			id_token: response.data.id_token
+		}
+		var dataString = JSON.stringify(data)
+		var html = `<html><body><script>WebViewJS.webResponse(${dataString});</script></body></html>`
+		return res.type('html').send(html);
+
 	}).catch(error => {
-		return res.status(500).json({
+
+		var data = {
 			success: false,
-			error: error.response.data
-		})
+			data: error.response.data
+		}
+
+		var dataString = JSON.stringify(data)
+
+		var dataString = JSON.stringify(data)
+		var html = `<html><body><script>WebViewJS.webError(${dataString});</script></body></html>`
+		return res.status(500).type('html').send(html);
+
 	})
 })
 
