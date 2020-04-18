@@ -61,25 +61,25 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 	}).then(response => {
 
 		var data = {
-			"success": true,
-			"data": req.body,
-			"user": getUserId(response.data.id_token),
-			"idToken": response.data.id_token
+			success: true,
+			data: req.body,
+			user: getUserId(response.data.id_token),
+			idToken: response.data.id_token
 		}
 		var dataString = JSON.stringify(data)
+		console.log(console.log('dataString: ', dataString));
 		var html = `<html><body><script>WebViewJS.webResponse(${dataString});</script></body></html>`
 		return res.type('html').send(html);
 
 	}).catch(error => {
 
 		var data = {
-			"success": false,
-			"data": error.response.data
+			success: false,
+			data: error.response.data
 		}
 
 		var dataString = JSON.stringify(data)
-
-		var dataString = JSON.stringify(data)
+		console.log(console.log('dataString: ', dataString));
 		var html = `<html><body><script>WebViewJS.webError(${dataString});</script></body></html>`
 		return res.status(500).type('html').send(html);
 
