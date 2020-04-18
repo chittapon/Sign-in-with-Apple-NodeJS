@@ -61,10 +61,10 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 	}).then(response => {
 
 		var data = {
-			success: true,
-			data: req.body,
-			user: getUserId(response.data.id_token),
-			id_token: response.data.id_token
+			"success": true,
+			"data": req.body,
+			"user": getUserId(response.data.id_token),
+			"idToken": response.data.id_token
 		}
 		var dataString = JSON.stringify(data)
 		var html = `<html><body><script>WebViewJS.webResponse(${dataString});</script></body></html>`
@@ -73,8 +73,8 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 	}).catch(error => {
 
 		var data = {
-			success: false,
-			data: error.response.data
+			"success": false,
+			"data": error.response.data
 		}
 
 		var dataString = JSON.stringify(data)
