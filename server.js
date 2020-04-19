@@ -80,7 +80,7 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 			success: true,
 			state: req.body.state,
 			code: req.body.code,
-			user: user,
+			user: JSON.parse(user),
 			data: responseData
 		}
 
