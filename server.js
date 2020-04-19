@@ -39,6 +39,14 @@ const getUserId = (token) => {
 	}
 }
 
+const getUser = (user) => {
+	try {
+		return JSON.parse(user)
+	} catch (e) {
+		return null
+	}
+}
+
 var users = {}
 
 app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => {
@@ -71,16 +79,19 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 			users[userData.sub] = user
 		}
 
+		console.log(console.log('user: ', user));
+
 		var responseData = {
 			data: response.data,
 			user: userData
 		}
 
+
 		var data = {
 			success: true,
 			state: req.body.state,
 			code: req.body.code,
-			user: JSON.parse(user),
+			user: getUser(user),
 			data: responseData
 		}
 
