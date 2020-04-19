@@ -60,15 +60,23 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(response => {
 
+		var user = req.body.user
+
+		var responseData = {
+			data: response.data,
+			user: getUserId(response.data.id_token)
+		}
+
 		var data = {
 			success: true,
-			data: req.body,
-			user: getUserId(response.data.id_token),
-			idToken: response.data.id_token
+			state: req.body.state,
+			code: req.body.code,
+			user: user,
+			data: responseData
 		}
 
 		console.log(console.log('data: ', data));
-		
+
 		var dataString = JSON.stringify(data)
 		var html = `<html><body><script>WebViewJS.webResponse('${dataString}');</script></body></html>`
 		
