@@ -39,6 +39,8 @@ const getUserId = (token) => {
 	}
 }
 
+var users = {}
+
 app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => {
 
 	const clientSecret = getClientSecret()
@@ -60,11 +62,18 @@ app.post('/callback', bodyParser.urlencoded({ extended: false }), (req, res) => 
 		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 	}).then(response => {
 
+		var userData = getUserId(response.data.id_token)
 		var user = req.body.user
+
+		if (req.body.user == null){
+			user = users[userData.sub]
+		}else {
+			users[userData.sub] = user
+		}
 
 		var responseData = {
 			data: response.data,
-			user: getUserId(response.data.id_token)
+			user: userData
 		}
 
 		var data = {
